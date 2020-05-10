@@ -14,26 +14,12 @@ import (
 var _ptrMongoClient *mongo.Client
 
 func init() {
-
-	//var objMongoConf = common.MongoDBConfig{
-	//	PoolLimit:     100,
-	//	SyncTimeout:   60 * time.Second,
-	//	SocketTimeout: 60 * time.Second,
-	//	DialTimeout:   10 * time.Second,
-	//	Host:          "127.0.0.1",
-	//	User:          "",
-	//	Password:      "",
-	//	Database:      "test",
-	//}
-	//ptrClient, anyErr := common.NewMongoClient(objMongoConf)
-	ptrClient, anyErr := common.NewMongoClientByUrl(common.Mongo_URL_Prefix+"127.0.0.1/my")
-	if anyErr == nil {
-		//_ptrLogger.Infof("common_mongodb.NewMongoClient: %v", objMongoConf)
-		_ptrMongoClient = ptrClient
-	} else {
+	ptrClient, anyErr := common.NewMongoClientByUrl(common.Mongo_URL_Prefix+"127.0.0.1")
+	if anyErr != nil {
 		fmt.Printf("err: %+v",anyErr)
-		//_ptrLogger.Panicf("common_mongodb.NewMongoClient error: %v", anyErr)
+		return
 	}
+	_ptrMongoClient = ptrClient
 }
 
 func GetDBInstance() *mongo.Client {
@@ -95,5 +81,5 @@ func main() {
 	}()
 
 	fmt.Println("---------------------------------- 插入 -----------------------------")
-	err = InsertUser(1, "admin", "123456", "123456", "843207296@qq.com", "110")
+	err = InsertUser(1, "root", "123456", "123456", "843207296@qq.com", "110")
 }
